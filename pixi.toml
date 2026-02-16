@@ -1,0 +1,53 @@
+[workspace]
+authors = ["Lev Kozlov <kozlov.l.a10@gmail.com>"]
+name = "pixi_ur_ros2"
+version = "0.1.0"
+channels = ["https://fast.prefix.dev/conda-forge"]
+platforms = ["linux-64"]
+
+[activation]
+scripts = ["scripts/set_ros_env.sh", "install/setup.bash"]
+
+[dependencies]
+python = "*"
+compilers = "*"
+cmake = "*"
+pkg-config = "*"
+make = "*"
+ninja = "*"
+
+[target.linux.dependencies]
+libgl-devel = "*"
+
+[environments]
+jazzy = { features = ["jazzy", "dev"] }
+
+# ROS2 Jazzy Feature
+[feature.jazzy]
+channels = ["https://prefix.dev/robostack-jazzy"]
+
+[feature.jazzy.dependencies]
+colcon-common-extensions = "*"
+pinocchio = ">=3.4.0,<4"
+ros-jazzy-desktop = "*"
+ros-jazzy-ur = "*"
+ros-jazzy-joint-state-publisher = "*"
+ros-jazzy-rmw-cyclonedds-cpp = "*"
+ros-jazzy-ros2-control = "*"
+ros-jazzy-ros2-controllers = "*"
+ros-jazzy-xacro = "*"
+ros-jazzy-generate-parameter-library = "*"
+ros-jazzy-topic-tools = "*"
+ros-jazzy-topic-tools-interfaces = "*"
+rosdep = "*"
+
+[feature.jazzy.tasks]
+clone-crisp = "test -d src/crisp_controllers || git clone https://github.com/utiasDSL/crisp_controllers.git src/crisp_controllers"
+build = "colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DBUILD_TESTS=OFF -DBUILD_EXAMPLES=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -Wno-dev"
+setup = { depends-on = ["clone-crisp", "build"] }
+launch = "ros2 launch crisp_ur_bringup ur.launch.py"
+
+# Development tools
+[feature.dev.pypi-dependencies]
+ruff = "*"
+pytest = "*"
