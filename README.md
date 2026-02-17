@@ -17,7 +17,7 @@ curl -fsSL https://pixi.sh/install.sh | bash
 ## Quick Start
 
 ```bash
-git clone https://github.com/iris/pixi_ur_ros2.git
+git clone https://github.com/lvjonok/pixi_ur_ros2.git
 cd pixi_ur_ros2
 
 # Setup: clone CRISP controllers and build
