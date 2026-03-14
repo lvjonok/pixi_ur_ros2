@@ -59,3 +59,15 @@ Activate a controller:
 ```bash
 ros2 control switch_controllers --activate cartesian_impedance_controller --deactivate scaled_joint_trajectory_controller
 ```
+
+## Example Usage
+
+1. Start the robot:
+```bash
+pixi run -e jazzy launch robot_ip:=<ROBOT_IP>
+```
+
+2. Run a demo script to move the robot:
+```bash
+pixi run -e inference python example.py
+```
