@@ -82,7 +82,15 @@ def generate_launch_description():
             "gravity_compensation",
             "cartesian_impedance_controller",
             "joint_impedance_controller",
+            "cartesian_admittance_controller",
         ],
+        output="screen",
+    )
+
+    wrench_republisher = Node(
+        package="crisp_ur_bringup",
+        executable="wrench_republisher",
+        name="wrench_republisher",
         output="screen",
     )
 
@@ -94,4 +102,5 @@ def generate_launch_description():
         ur_control,
         crisp_broadcasters_spawner,
         crisp_controllers_spawner,
+        wrench_republisher,
     ])

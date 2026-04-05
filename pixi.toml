@@ -40,10 +40,11 @@ ros-jazzy-topic-tools = "*"
 ros-jazzy-topic-tools-interfaces = "*"
 
 [feature.jazzy.tasks]
-clone-crisp = "test -d src/crisp_controllers || git clone https://github.com/utiasDSL/crisp_controllers.git src/crisp_controllers"
+clone-crisp = "test -d src/crisp_controllers || git clone -b feature/admittance-controller https://github.com/KAIST-IRiS-Haptics-Telerobotics/crisp_controllers.git src/crisp_controllers"
 build = "colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DBUILD_TESTS=OFF -DBUILD_EXAMPLES=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -Wno-dev"
 setup = { depends-on = ["clone-crisp", "build"] }
 launch = "ros2 launch crisp_ur_bringup ur.launch.py"
+wrench-republisher = "ros2 run crisp_ur_bringup wrench_republisher"
 
 [feature.jazzy.pypi-dependencies]
 filelock = ">=3.25.2, <4"

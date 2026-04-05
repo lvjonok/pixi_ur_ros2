@@ -15,7 +15,7 @@ setup(
         (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
         (os.path.join('share', package_name, 'config'), glob('config/*.yaml')),
     ],
-    install_requires=['setuptools'],
+    install_requires=['setuptools', 'numpy'],
     zip_safe=True,
     maintainer='Lev Kozlov',
     maintainer_email='kozlov.l.a10@gmail.com',
@@ -23,6 +23,8 @@ setup(
     license='Apache-2.0',
 
     entry_points={
-        'console_scripts': [],
+        'console_scripts': [
+            'wrench_republisher = crisp_ur_bringup.wrench_republisher:main',
+        ],
     },
 )

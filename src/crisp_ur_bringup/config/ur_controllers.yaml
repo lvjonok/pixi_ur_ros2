@@ -68,6 +68,9 @@
       joint_impedance_controller:
         type: crisp_controllers/CartesianController
 
+      cartesian_admittance_controller:
+        type: crisp_controllers/CartesianAdmittanceController
+
       enforce_command_limits: false
 
 speed_scaling_state_broadcaster:
@@ -298,3 +301,79 @@ cartesian_impedance_controller:
     use_coriolis_compensation: true
     use_local_jacobian: true
     limit_torques: false
+
+cartesian_admittance_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+
+    end_effector_frame: tool0
+    base_frame: base_link
+
+    filter:
+      q: 0.5
+      dq: 0.5
+      output_torque: 0.5
+
+    # Impedance outer loop
+    task:
+      k_pos_x: 1350.0
+      k_pos_y: 1350.0
+      k_pos_z: 1350.0
+      k_rot_x: 250.0
+      k_rot_y: 250.0
+      k_rot_z: 250.0
+      d_pos_x: 70.0
+      d_pos_y: 70.0
+      d_pos_z: 70.0
+      d_rot_x: 32.0
+      d_rot_y: 32.0
+      d_rot_z: 32.0
+
+    nullspace:
+      stiffness: 5.0
+      damping: 5.0
+
+    # Admittance parameters (virtual MSD)
+    admittance:
+      mass_x: 1.0
+      mass_y: 1.0
+      mass_z: 1.0
+      mass_rx: 0.1
+      mass_ry: 0.1
+      mass_rz: 0.1
+      stiffness_x: 150.0
+      stiffness_y: 150.0
+      stiffness_z: 150.0
+      stiffness_rx: 15.0
+      stiffness_ry: 15.0
+      stiffness_rz: 15.0
+      damping_x: 75.0
+      damping_y: 75.0
+      damping_z: 75.0
+      damping_rx: 7.5
+      damping_ry: 7.5
+      damping_rz: 7.5
+
+    # F/T sensor (bias-subtracted by wrench_republisher.py)
+    ft_sensor:
+      topic: /ft_sensor_unbiased
+      frame: tool0
+
+    # Variable admittance stiffness via topic
+    variable_admittance_stiffness:
+      enabled: true
+      topic: "target_admittance_stiffness"
+
+    use_friction: true
+    use_coriolis_compensation: true
+    use_gravity_compensation: false
+    use_local_jacobian: true
+    limit_error: true
+    limit_torques: true
+    max_delta_tau: 2.0
